@@ -1,0 +1,50 @@
+데이프로그래밍 블로그 만들기
+
+1. DB연결하는 방법
+	- WEB-INF에 web.xml추가
+	- META-INF에 context.xml추가
+	- 아파치톰캣 홈페이지가서 9.0 클릭
+		- <Context>
+	 	<Resource name="jdbc/TestDB" auth="Container" type="javax.sql.DataSource"
+               	maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+               	username="bloguser" password="bitc5600" driverClassName="com.mysql.cj.jdbc.Driver"
+               	url="jdbc:mysql://localhost:3306/blog?serverTimezone=Asia/Seoul"/>
+		</Context> 추가
+	
+		- <description>MySQL Test App</description>
+		<resource-ref>
+		<description>DB Connection</description>
+		<res-ref-name>jdbc/TestDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+		</resource-ref> 추가
+
+
+	- config 패키지에 DBConnection 추가 ( DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");	// 이 부분을 context.xml의 리소스네임으로 변경
+
+	
+
+
+
+
+
+8강(로그인 화면 구현) 필기 노트
+
+1. 메인화면 먼저 구현하기
+	- list.jsp 생성
+	- 부트스트랩 이용해서 뼈대 잡아주기 (<%@ include file="../layout/header.jsp" %>)
+	- joinForm.jsp에서 회원가입 틀 만들었음
+
+9강 (회원가입 완료) 필기노트
+
+1. 
+
+
+10강 주소 api 사용
+
+1. https://www.juso.go.kr/addrlink/addrLinkUrl.do?confmKey=U01TX0FVVEgyMDIxMTEyMzExNDMzNzExMTkyODI=&returnUrl=http://localhost:8181/user&resultType=4
+
+2. sample.jsp로 테스트를 먼저 해야함..
+	- 테스트 할 때 받은 키 입력하고 주소 잘 보고!
+
+3. 
