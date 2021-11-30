@@ -4,9 +4,13 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-	<form action="/blog/user?cmd=join" method="post">
+	<form action="/blog/user?cmd=join" method="post" onsubmit="return valid()">
+		<div class="d-flex justify-content-end">
+			<button class="btn btn-info" type="button" onClick="usernameCheck();">아이디 중복 체크</button>
+		</div>
+		
 		<div class="form-group">
-			<input type="text"  name="username" class="form-control" placeholder="Enter Username" required >
+			<input type="text"  name="username" id="username" class="form-control" placeholder="Enter Username" required >
 		</div>
 		
 		<div class="form-group">
@@ -31,6 +35,38 @@
 
 
 <script>
+	var isChecking = false;		// 아직 체크가 안된 상태
+	
+	function usernameCheck() {
+		// DB에서 확인해서 정상이면 isChecking = true
+		var username = $("#username").val()		// == document.querySelector("#username")과 같음
+		
+		$.ajax({
+			type: "POST",
+			url: "/blog/user?cmd=usernameCheck",
+			data: username, 	// 요청할때 가져갈 body 데이터
+			contentType: "text/plain; charset=utf-8",
+			dataType: "text" 		// 응답 받을 데이터의 타입을 적으면 자바스크립트 오브젝트로 파싱해줌.
+		}).done(function(data){
+			if (data === 'ok') {		// username이 있으면
+				isChecking = false;
+				alert('중복되는 아이디 입니다.')
+			} else {		// username없으면
+				isChecking = true;
+				alert('해당아이디는 사용할 수 있습니다.')
+			}
+		})
+	}
+	
+	function vaild() {
+		if (isChecking == false) {
+			alert('아이디 중복체크는 필수입니다.')
+		}
+		return isChecking;
+	}
+
+
+
 // opener관련 오류가 발생하는 경우 아래 주석을 해지하고, 사용자의 도메인정보를 입력합니다. ("팝업API 호출 소스"도 동일하게 적용시켜야 합니다.)
 //document.domain = "abc.go.kr";
 

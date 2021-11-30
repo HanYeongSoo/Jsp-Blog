@@ -2,6 +2,7 @@ package com.cos.blog.domain.user;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import com.cos.blog.config.DB;
 import com.cos.blog.domain.user.dto.JoinReqDto;
@@ -43,5 +44,26 @@ public class UserDao {
 	// 아이디를 통한 회원정보 보기
 	public void findById() {
 		
+	}
+
+	public int findById(String username) {
+		String sql = "SELECT * FROM user WHERE username=?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null; 
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				return 1;		// 성공이면 1
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {		// 무조건 실행되는 부분
+			DB.close(conn, pstmt, rs);
+		}
+		return -1;		// 실패면 -1
 	}
 }

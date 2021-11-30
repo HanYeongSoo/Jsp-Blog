@@ -37,8 +37,8 @@ public class UserService {
 //			로그아웃은 service에서 안함 걍 controller에서 해결 (여기엔 request가 없음 )
 //	}
 	
-	public int 아이디중복체크(String username) {
-		
-		return -1;	// 찾으면 1 못찾으면 -1
+	public int 유저네임중복체크(String username) {
+		int result = userDao.findById(username);
+		return result;		// 찾으면 1 못찾으면 -1
 	}
 }

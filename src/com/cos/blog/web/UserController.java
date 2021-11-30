@@ -1,6 +1,9 @@
 package com.cos.blog.web;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -65,7 +68,20 @@ public class UserController extends HttpServlet {
 				response.sendRedirect("index.jsp");
 			} else {		// 회원가입 실패 시
 				Script.back(response, "회원가입 실패");
+			} 
+		} else if (cmd.equals("usernameCheck")) {
+			BufferedReader br = request.getReader();
+			String username = br.readLine();
+			request.getParameter("username");
+			int result = userService.유저네임중복체크(username);
+			
+			PrintWriter out = response.getWriter();
+			if (result == 1) {
+				out.print("ok");
+			} else {
+				out.print("fail");
 			}
+			out.flush();
 		}
 	}
 
