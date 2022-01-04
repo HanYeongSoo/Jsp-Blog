@@ -25,7 +25,7 @@ public class UserService {
 	
 	public User 로그인(LoginReqDto dto) {
 		
-		return null;		// null이면 실패
+		return userDao.findByUsernameAndPassword(dto);		// null이면 실패
 	}
 	
 	public int 회원수정(UpdateReqDto dto) {

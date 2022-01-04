@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 
 import com.cos.blog.config.DB;
 import com.cos.blog.domain.user.dto.JoinReqDto;
+import com.cos.blog.domain.user.dto.LoginReqDto;
 
 // Dao에서 DB랑 연결하는거 알지?
 public class UserDao {
@@ -45,7 +46,8 @@ public class UserDao {
 	public void findById() {
 		
 	}
-
+	
+	// 회원가입할 때 아이디가 있는지 확인하는거
 	public int findById(String username) {
 		String sql = "SELECT * FROM user WHERE username=?";
 		Connection conn = DB.getConnection();
@@ -65,5 +67,33 @@ public class UserDao {
 			DB.close(conn, pstmt, rs);
 		}
 		return -1;		// 실패면 -1
+	}
+
+	public User findByUsernameAndPassword(LoginReqDto dto) {
+		String sql = "SELECT id, username, email, address FROM user WHERE username=? AND password=?";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getUsername());
+			pstmt.setString(2, dto.getPassword());
+			rs = pstmt.executeQuery();
+			
+			// Persistence API로 나중엔 편하게 가능...
+			if (rs.next()) {
+				User user = User.builder()
+						.id(rs.getInt("id"))
+						.username(rs.getString("username"))
+						.email(rs.getString("email"))
+						.address(rs.getString("address"))
+						.build();
+				return user;
+			}
+		} catch (Exception e) {
+			DB.close(conn, pstmt, rs);
+		}
+		return null;
 	}
 }

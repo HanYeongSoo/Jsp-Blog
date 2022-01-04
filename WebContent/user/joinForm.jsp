@@ -43,11 +43,11 @@
 		
 		$.ajax({
 			type: "POST",
-			url: "/blog/user?cmd=usernameCheck",
+			url: "/blog/user?cmd=usernameCheck",		// localhost:8181/contextPath 까지는 생략가능
 			data: username, 	// 요청할때 가져갈 body 데이터
 			contentType: "text/plain; charset=utf-8",
-			dataType: "text" 		// 응답 받을 데이터의 타입을 적으면 자바스크립트 오브젝트로 파싱해줌.
-		}).done(function(data){
+			dataType: "text" 		// 응답 받을 데이터의 타입을 적으면 자바스크립트 오브젝트로 파싱해줌.		json or text
+		}).done(function(data){		// .done == 통신이 끝나면 함수를 불러줄게 ()안에 변수명은 아무거나 하고 그 안에 값이 들어오는거 보통은 data or result
 			if (data === 'ok') {		// username이 있으면
 				isChecking = false;
 				alert('중복되는 아이디 입니다.')
