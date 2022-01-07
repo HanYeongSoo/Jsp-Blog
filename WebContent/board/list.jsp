@@ -19,14 +19,17 @@
 	<div class="progress col-md-12 m-2">
 		<div class="progress-bar" style="width: 70%"></div>
 	</div>
-
-		<div class="card col-md-12 m-2">
-			<div class="card-body">
-				<h4 class="card-title">제목</h4>
-				<a href="#" class="btn btn-primary">상세보기</a>
+		
+		<!-- JSTL 문법 (forEach문)을 이용해서 뿌리면 됨. el 표현식과 함께 -->
+		<c:forEach var="board" items="${boards }">
+			<div class="card col-md-12 m-2">
+				<div class="card-body">
+					<h4 class="card-title">${board.title }</h4>
+					<a href="/blog/board?cmd=detail&id=${board.id }" class="btn btn-primary">상세보기</a>
+				</div>
 			</div>
-		</div>
-
+		</c:forEach>
+		
 	<br />
 	<ul class="pagination justify-content-center">
 		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
