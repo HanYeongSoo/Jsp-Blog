@@ -12,7 +12,6 @@ public class BoardService {
 	}
 	
 	public int 글쓰기(SaveReqDto dto) {
-		
 		int result = boardDao.save(dto);
 		
 		return result;

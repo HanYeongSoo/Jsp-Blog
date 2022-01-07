@@ -39,6 +39,7 @@ public class BoardController extends HttpServlet {
 		// http://localhost:8080/blog/board?cmd=savaForm
 		if (cmd.equals("saveForm")) {
 			User loginUser = (User)session.getAttribute("loginUser");
+			// 로그인을 했나 안했나
 			if (loginUser != null) {
 				response.sendRedirect("board/saveForm.jsp");
 			} else {

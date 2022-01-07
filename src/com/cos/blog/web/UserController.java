@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,7 +47,10 @@ public class UserController extends HttpServlet {
 		// 로그인 관련
 		if (cmd.equals("loginForm")) {
 			// 서비스 호출, 아이디 기억 (호출이 아니고 어떤 기능이 들어가면 service가 필요)
-			response.sendRedirect("user/loginForm.jsp");
+//			response.sendRedirect("user/loginForm.jsp"); 		필터가 들어가면서 redirect를 쓰면 x 대신에 dispatcher를 써야함
+			RequestDispatcher dis = request.getRequestDispatcher("user/loginForm.jsp");
+			dis.forward(request, response);
+			
 		} else if (cmd.equals("login")) {
 			// 서비스 호출
 			String username = request.getParameter("username");
@@ -68,7 +72,8 @@ public class UserController extends HttpServlet {
 			
 			// 회원가입
 		} else if (cmd.equals("joinForm")) {
-			response.sendRedirect("user/joinForm.jsp");
+			RequestDispatcher dis = request.getRequestDispatcher("user/joinForm.jsp");
+			dis.forward(request, response);
 		} else if (cmd.equals("join")) {
 			// 서비스 호출
 			String username = request.getParameter("username");
