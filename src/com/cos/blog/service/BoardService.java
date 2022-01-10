@@ -20,9 +20,9 @@ public class BoardService {
 		return result;
 	}
 
-	public List<Board> 글목록보기() {
+	public List<Board> 글목록보기(int page) {
 		
-		return boardDao.findAll();
+		return boardDao.findAll(page);
 	}
 
 }

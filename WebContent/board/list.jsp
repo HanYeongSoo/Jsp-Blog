@@ -30,10 +30,18 @@
 			</div>
 		</c:forEach>
 		
+		
 	<br />
+	<!-- disabled -->
 	<ul class="pagination justify-content-center">
-		<li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-		<li class="page-item"><a class="page-link" href="#">Next</a></li>
+		<c:if test="${isEnd == true }">
+			<li class="page-item disabled"><a class="page-link" href="/blog/board?cmd=list&page=${param.page-1 }">Previous</a></li>
+			<li class="page-item"><a class="page-link" href="/blog/board?cmd=list&page=${param.page+1 }">Next</a></li>  <!-- 0페이지 부터 시작 -->
+		</c:if>
+		<c:if test="${isEnd == false }">
+			<li class="page-item"><a class="page-link" href="/blog/board?cmd=list&page=${param.page-1 }">Previous</a></li>
+			<li class="page-item disabled"><a class="page-link" href="/blog/board?cmd=list&page=${param.page+1 }">Next</a></li>  <!-- 0페이지 부터 시작 -->
+		</c:if>
 	</ul>
 </div>
 

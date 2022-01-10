@@ -32,8 +32,8 @@ public class BoardDao {
 	}
 	
 	// 모든 정보 가져와서 list로 뿌려주기
-	public List<Board> findAll() {
-		String sql = "SELECT * FROM board ORDER BY id DESC";
+	public List<Board> findAll(int page) {
+		String sql = "SELECT * FROM board ORDER BY id DESC LIMIT ?, 4";	// 0,4 , 4,4 , 8,4 ... 
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -41,6 +41,7 @@ public class BoardDao {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, page*4);	// 0 -> 0, 1 -> 4, 2 -> 8
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {	// 커서를 이동하는 함수 (데이터가 있으면 처음부터 끝까지 다 읽는거)

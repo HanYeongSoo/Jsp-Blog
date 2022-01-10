@@ -69,8 +69,24 @@ public class BoardController extends HttpServlet {
 				Script.back(response, "글쓰기에 실패하셨습니다.");
 			}
 		} else if (cmd.equals("list")) {
-			List<Board> boards =  boardService.글목록보기();
+			int page = Integer.parseInt(request.getParameter("page"));	// 최초 : 0 , Next : 1 , Next : 2 ...
+			List<Board> boards =  boardService.글목록보기(page);
 			request.setAttribute("boards", boards);
+			
+			int totalBoard = 5;
+			int maxBoard = 4 / totalBoard;
+			boolean isEnd = false;
+			if (maxBoard % totalBoard == 0) {
+				isEnd = false;
+				request.setAttribute("isEnd", false);	
+			} else {
+				isEnd = true;
+				request.setAttribute("isEnd", true);	
+			}
+			
+			// 계산 : (전체 페이지 수랑 한 페이지 몇 개  - 총 몇 페이지 나와야 되는지 계산) - 3page라면 맥스값은2
+			// page == 2가 되는 순간 inEnd라는 변수값에 true
+			// request.setAttribute("isEnd", true);	
 			
 			RequestDispatcher dis = request.getRequestDispatcher("board/list.jsp");
 			dis.forward(request, response);
