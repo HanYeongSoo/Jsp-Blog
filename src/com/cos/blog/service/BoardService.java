@@ -25,4 +25,8 @@ public class BoardService {
 		return boardDao.findAll(page);
 	}
 
+	public int 글개수() {
+		return boardDao.count();
+	}
+
 }
