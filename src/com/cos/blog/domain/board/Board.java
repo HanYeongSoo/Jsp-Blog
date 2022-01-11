@@ -23,5 +23,8 @@ public class Board {
 	public String getTitle() {
 		return title.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
 	}
+	public String getContent() {
+		return title.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+	}
 	
 }

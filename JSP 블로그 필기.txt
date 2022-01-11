@@ -134,6 +134,14 @@
 1. dto 가서 해당되는 변수에 (제목이면 title, 내용이면 content등등) get변수를 만들고
 return content.replaceAll("<", "&lt;").replaceAll(">", "&gt;"); 를 등록
 
+==================================================================================
+24강 글 상세보기
+
+1. Material css 홈페이지 가서 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 추가하고
+2. 홈페이지에 나와있는 아이콘 맞춰서 <i onclick="#" class="material-icons">여기이름만바꿔주면 자동으로바뀜</i>
+3. INNER JOIN 사용해봤다 한번 더 볼것
+4. 
+
 
 
 

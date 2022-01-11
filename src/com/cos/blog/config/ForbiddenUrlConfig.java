@@ -11,6 +11,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
+// 이제부터는 내부에서의 모든 요청은 RequestDispatcher로 해야한다.
+// 그래야 다시 필터를 타지 않는다.
 public class ForbiddenUrlConfig implements Filter {
 
 	@Override
