@@ -88,9 +88,9 @@ public class BoardDao {
 
 	public DetailRespDto findById(int id) {
 		StringBuffer sb = new StringBuffer();
-		sb.append("SELECT b.id, b.title, b.content, b.readCount, u.username ");
-		sb.append("FROM board b INNER JOIN user u ");
-		sb.append("ON b.userId = u.id ");
+		sb.append("SELECT b.id, b.title, b.content, b.readCount, b.userId, u.username ");		// 여기 끝 문장은 띄어쓰기 해줘야 함.
+		sb.append("FROM board b INNER JOIN user u ");		// 여기 끝 문장은 띄어쓰기 해줘야 함.
+		sb.append("ON b.userId = u.id ");		// 여기 끝 문장은 띄어쓰기 해줘야 함.
 		sb.append("WHERE b.id = ?");
 		
 		String sql = sb.toString();
@@ -109,6 +109,7 @@ public class BoardDao {
 				dto.setTitle(rs.getString("b.title"));
 				dto.setContent(rs.getString("b.content"));
 				dto.setReadCount(rs.getInt("b.readCount"));
+				dto.setUserId(rs.getInt("b.userId"));
 				dto.setUsername(rs.getString("u.username"));
 				return dto;
 			}
@@ -122,6 +123,24 @@ public class BoardDao {
 
 	public int updateReadCount(int id) {
 		String sql = "UPDATE board SET readCount = readCount+1 WHERE id = ? ";
+		Connection conn = DB.getConnection();
+		PreparedStatement pstmt = null;
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			int result = pstmt.executeUpdate();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DB.close(conn, pstmt);
+		}
+		return -1;
+	}
+
+	public int deleteById(int id) {
+		String sql = "DELETE FROM board WHERE id = ?";
 		Connection conn = DB.getConnection();
 		PreparedStatement pstmt = null;
 		

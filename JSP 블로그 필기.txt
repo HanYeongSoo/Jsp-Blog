@@ -142,6 +142,14 @@ return content.replaceAll("<", "&lt;").replaceAll(">", "&gt;"); 를 등록
 3. INNER JOIN 사용해봤다 한번 더 볼것
 4. 
 
+==================================================================================
+26강 글 삭제
+
+1. 요청 받은 json데이터를 자바 오브잭트로 패싱 (ajax에서 body데이터로 던지면 controller에서는 buffer로 읽어야 함.)
+2. DB에서 id값으로 글 삭제 (int result = boardService.글삭제(dto.getBoardId());
+3. 응답할 json 데이터 생성
+-- 나중에 리플렉션 활용하면 더 쉽게 된다는데 무슨 말 일까...?
+
 
 
 
