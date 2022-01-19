@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.Board;
 import com.cos.blog.domain.board.dto.DeleteReqDto;
-import com.cos.blog.domain.board.dto.DeleteRespDto;
+import com.cos.blog.domain.board.dto.CommonRespDto;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
 import com.cos.blog.domain.board.dto.UpdateReqDto;
@@ -115,6 +115,7 @@ public class BoardController extends HttpServlet {
 				dis.forward(request, response);
 			}
 		} else if (cmd.equals("delete")) {
+			/*
 			// 1. 요청 받은 json 데이터를 자바 오브젝트로 패싱
 			BufferedReader br = request.getReader();
 			String data = br.readLine();
@@ -138,6 +139,21 @@ public class BoardController extends HttpServlet {
 			}
 			String respData = gson.toJson(respDto);
 //			System.out.println("respData : " + respData);	restData : {"status"."ok"}
+			PrintWriter out = response.getWriter();
+			out.print(respData);
+			out.flush();
+			*/
+			
+			int id = Integer.parseInt(request.getParameter("id"));
+			
+			int result = boardService.글삭제(id);
+			
+			CommonRespDto<String> commonRespDto = new CommonRespDto();
+			commonRespDto.setStatusCode(result);
+			commonRespDto.setData("성공");
+			
+			Gson gson = new Gson();
+			String respData = gson.toJson(commonRespDto);
 			PrintWriter out = response.getWriter();
 			out.print(respData);
 			out.flush();

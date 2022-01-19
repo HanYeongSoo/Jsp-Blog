@@ -160,8 +160,51 @@ return content.replaceAll("<", "&lt;").replaceAll(">", "&gt;"); 를 등록
 5. 그 게시글의 관련된 id와 title, content를 저장하는 UpdateReqDto를 추가 후 이전에 받아온 값을 setter로 저장
 6. 그 뒤는 그냥 컨트롤러 서비스 dao가서 UPDATE문으로 변경하는 로직
 
+==================================================================================
+28강 공통Dto 만들기
+
+1. Json이 어려워서 수정 할 껀데 이전의 코드는 지우지 않고 여기다 우선 넣어둠.
+<script type="text/javascript">
+		function deleteById(boardId) {
+			// 요청과 응답을 json으로 통일
+			var data = {
+					boardId: boardId	// 앞에 있는 boardId는 변수 명 , 뒤에있는 boardId는 함수에 넘어온 매게변수
+			}
+			
+			$.ajax({
+				type: "POST",
+				url: "/blog/board?cmd=delete",
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				dataType: "json"
+			}).done(function(result){
+				if (result.status == "ok") {
+					location.href="index.jsp";
+				} else {
+					alert('삭제에 실패하였습니다.');
+				}
+			});
+		}
+	</script>
+
+2. 변경코드는 이렇습니다.
+	$.ajax({
+				type: "POST",
+				url: "/blog/board?cmd=delete&id="+boardId,
+				dataType: "json"
+			}).done(function(result){
+				if (result.statusCode == "1") {
+					location.href="index.jsp";
+				} else {
+					alert('삭제에 실패하였습니다.');
+				}
+			});
+		}
 
 
+3. CommonRespDto를 만들고 제네릭을 활용해서 만듭니다.
+4. 사실 이 부분은 많이 어렵다...여러 번 확인해볼것
 
 
-
+==================================================================================
+29강 

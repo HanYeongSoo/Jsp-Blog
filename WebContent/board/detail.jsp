@@ -10,28 +10,7 @@
 		<button onclick="deleteById(${dto.id})" class="btn btn-danger">삭제</button>
 	</c:if>
 	
-	<script type="text/javascript">
-		function deleteById(boardId) {
-			// 요청과 응답을 json으로 통일
-			var data = {
-					boardId: boardId	// 앞에 있는 boardId는 변수 명 , 뒤에있는 boardId는 함수에 넘어온 매게변수
-			}
-			
-			$.ajax({
-				type: "POST",
-				url: "/blog/board?cmd=delete",
-				data: JSON.stringify(data),
-				contentType: "application/json; charset=utf-8",
-				dataType: "json"
-			}).done(function(result){
-				if (result.status == "ok") {
-					location.href="index.jsp";
-				} else {
-					alert('삭제에 실패하였습니다.');
-				}
-			});
-		}
-	</script>
+	
 	<br />
 	<br />
 	<h6 class="m-2">
@@ -92,6 +71,22 @@
 	<!-- 댓글 박스 끝 -->
 </div>
 
+<script type="text/javascript">
+		function deleteById(boardId) {
+			
+			$.ajax({
+				type: "POST",
+				url: "/blog/board?cmd=delete&id="+boardId,
+				dataType: "json"
+			}).done(function(result){
+				if (result.statusCode == "1") {
+					location.href="index.jsp";
+				} else {
+					alert('삭제에 실패하였습니다.');
+				}
+			});
+		}
+	</script>
 </body>
 </html>
 
