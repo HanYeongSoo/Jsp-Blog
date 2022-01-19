@@ -18,6 +18,7 @@ import com.cos.blog.domain.board.dto.DeleteReqDto;
 import com.cos.blog.domain.board.dto.DeleteRespDto;
 import com.cos.blog.domain.board.dto.DetailRespDto;
 import com.cos.blog.domain.board.dto.SaveReqDto;
+import com.cos.blog.domain.board.dto.UpdateReqDto;
 import com.cos.blog.domain.user.User;
 import com.cos.blog.service.BoardService;
 import com.cos.blog.util.Script;
@@ -121,7 +122,7 @@ public class BoardController extends HttpServlet {
 			// 읽기만 해서 사용할 수 있는 dto가 필요함! (DeleteReqDto 생성)
 			Gson gson = new Gson();
 			DeleteReqDto dto = gson.fromJson(data, DeleteReqDto.class);
-//			System.out.println("data : " + data);	data : {"boardId"=1(게시글을 누가 썻느지에 따라 달라짐)}
+//			System.out.println	("data : " + data);	data : {"boardId"=1(게시글을 누가 썻느지에 따라 달라짐)}
 //			System.out.println("dto : " + dto);		dto : DeleteReqDto(boardId=1(여기두))
 			
 			
@@ -141,7 +142,31 @@ public class BoardController extends HttpServlet {
 			out.print(respData);
 			out.flush();
 			 
+		} else if (cmd.equals("updateForm")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			DetailRespDto dto = boardService.글상세보기(id);
+			request.setAttribute("dto", dto);
+			
+			RequestDispatcher dis = request.getRequestDispatcher("board/updateForm.jsp");
+			dis.forward(request, response);
+		} else if (cmd.equals("update")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			String title = request.getParameter("title");
+			String content = request.getParameter("content");
+			
+			UpdateReqDto dto = new UpdateReqDto();
+			dto.setId(id);
+			dto.setTitle(title);
+			dto.setContent(content);
+			
+			int result = boardService.글수정(dto);
+			// 고민해보세요. 왜 RequestDispatcher 안 썼는지..detail.jsp 호출
+			if (result == 1) {
+				response.sendRedirect("/blog/board?cmd=detail&id=" + id);
+			} else {
+				Script.back(response, "글 수정에 실패하였습니다.");
+			}
 		}
 		
-	}
+	} 
 }

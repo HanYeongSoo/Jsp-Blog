@@ -135,7 +135,7 @@
 return content.replaceAll("<", "&lt;").replaceAll(">", "&gt;"); 를 등록
 
 ==================================================================================
-24강 글 상세보기
+24강 게시글 상세보기
 
 1. Material css 홈페이지 가서 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> 추가하고
 2. 홈페이지에 나와있는 아이콘 맞춰서 <i onclick="#" class="material-icons">여기이름만바꿔주면 자동으로바뀜</i>
@@ -143,15 +143,22 @@ return content.replaceAll("<", "&lt;").replaceAll(">", "&gt;"); 를 등록
 4. 
 
 ==================================================================================
-26강 글 삭제
+26강 게시글 삭제
 
 1. 요청 받은 json데이터를 자바 오브잭트로 패싱 (ajax에서 body데이터로 던지면 controller에서는 buffer로 읽어야 함.)
 2. DB에서 id값으로 글 삭제 (int result = boardService.글삭제(dto.getBoardId());
 3. 응답할 json 데이터 생성
 -- 나중에 리플렉션 활용하면 더 쉽게 된다는데 무슨 말 일까...?
 
+==================================================================================
+27강 게시글 수정
 
-
+1. 수정할 updateForm.jsp를 생성
+2. 수정 버튼을 클릭 시 원래 정보를 받아와야 하니까 value속성을 이용해서 이전에 값을 미리 다 받아옴
+3. 컨트롤러에서 updateForm과 update요청을 추가함
+4. update시에는 사실 sessionScope.loginUser.id가 필요하지 않음 (로그인 한 유저가 아니면 수정 자체가 되지 않으니까!)
+5. 그 게시글의 관련된 id와 title, content를 저장하는 UpdateReqDto를 추가 후 이전에 받아온 값을 setter로 저장
+6. 그 뒤는 그냥 컨트롤러 서비스 dao가서 UPDATE문으로 변경하는 로직
 
 
 
