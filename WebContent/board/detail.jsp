@@ -35,14 +35,17 @@
 						<b>Comment</b>
 					</div>
 					<div class="panel-body">
-						<textarea id="content" id="reply__write__form"
-							class="form-control" placeholder="write a comment..." rows="2"></textarea>
-						<br>
-
-						<button
-							onClick="#"
-							class="btn btn-primary pull-right">댓글쓰기</button>
-
+						<form action="/blog/reply?cmd=save" method="post">
+							<input type="hidden" name="userId" value="${sessionScope.loginUser.id }" />
+							<input type="hidden" name="boardId" value="${dto.id }" />
+							<textarea id="content" id="reply__write__form"
+								class="form-control" placeholder="write a comment..." rows="2" name="content"></textarea>
+							<br>
+	
+							<button
+								onClick="#"
+								class="btn btn-primary pull-right">댓글쓰기</button>
+						</form>
 						<div class="clearfix"></div>
 						<hr />
 

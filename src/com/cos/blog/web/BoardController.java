@@ -150,7 +150,7 @@ public class BoardController extends HttpServlet {
 			
 			CommonRespDto<String> commonRespDto = new CommonRespDto();
 			commonRespDto.setStatusCode(result);
-			commonRespDto.setData("성공");
+			commonRespDto.setData("성공");	
 			
 			Gson gson = new Gson();
 			String respData = gson.toJson(commonRespDto);

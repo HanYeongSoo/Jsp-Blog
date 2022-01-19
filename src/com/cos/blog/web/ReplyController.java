@@ -6,6 +6,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.cos.blog.domain.reply.dto.SaveReqDto;
+import com.cos.blog.service.BoardService;
+import com.cos.blog.service.ReplyService;
+import com.cos.blog.util.Script;
 
 @WebServlet("/reply")
 public class ReplyController extends HttpServlet {
@@ -16,11 +22,39 @@ public class ReplyController extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		doProcess(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doProcess(request, response);
+	}
+	
+	protected void doProcess(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String cmd = request.getParameter("cmd");
+		// http://localhost:8080/blog/reply?cmd=save
+		ReplyService replyService = new ReplyService();
+		
+		HttpSession session = request.getSession();
+		
+		if (cmd.equals("save")) {
+			int userId = Integer.parseInt(request.getParameter("userId"));
+			int boardId = Integer.parseInt(request.getParameter("boardId"));
+			String content = request.getParameter("content");
+			
+			SaveReqDto dto = new SaveReqDto();
+			dto.setUserId(userId);
+			dto.setBoardId(boardId);
+			dto.setContent(content);
+			
+			int result = replyService.댓글쓰기(dto);
+			
+			if (result == 1) {
+				response.sendRedirect("/blog/board?cmd=detail&id="+boardId);
+			} else {
+				Script.back(response, "댓글이 성공적으로 달리지 않았습니다.");
+			}
+		}
 		
 	}
-
 }
