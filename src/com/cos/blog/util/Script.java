@@ -21,4 +21,16 @@ public class Script {
 		}
 		
 	}
+	
+	public static void responseData(HttpServletResponse response, String jsonData) {
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			out.print(jsonData);
+			out.flush(); // 버퍼 비우기 (마지막에 써줄 것)
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

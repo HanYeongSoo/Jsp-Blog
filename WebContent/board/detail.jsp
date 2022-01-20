@@ -35,17 +35,39 @@
 						<b>Comment</b>
 					</div>
 					<div class="panel-body">
-						<form action="/blog/reply?cmd=save" method="post">
 							<input type="hidden" name="userId" value="${sessionScope.loginUser.id }" />
 							<input type="hidden" name="boardId" value="${dto.id }" />
 							<textarea id="content" id="reply__write__form"
 								class="form-control" placeholder="write a comment..." rows="2" name="content"></textarea>
 							<br>
 	
-							<button
-								onClick="#"
-								class="btn btn-primary pull-right">댓글쓰기</button>
-						</form>
+							<button class="btn btn-primary pull-right" onclick="replySave(${sessionScope.loginUser.id}, ${dto.id })">댓글쓰기</button>
+							
+						<script type="text/javascript">
+							function replySave(userId, boardId){
+								var data = {
+									userId: userId,
+									boardId: boardId,
+									content: $("#content").val()
+								}
+								
+								$.ajax({
+									type: "post",
+									url: "/blog/reply?cmd=save",
+									data: JSON.stringify(data),
+									contentType: "application/json; charset=utf-8",
+									dataType: "json"
+								}).done(function(result){
+									if(result.statusCode == 1) {
+										$("#reply__list").prepend("<div>" + data.content + "</div>")
+									} else {
+										alert('댓글이 정상적으로 달리지 않았습니다.')
+									}
+								})
+							}
+							
+						</script>
+						
 						<div class="clearfix"></div>
 						<hr />
 
@@ -55,7 +77,7 @@
 								<li id="reply-1" class="media">
 									<img src="/blog/images/userProfile.png" alt="" class="img-circle" style="width: 100px; height: 100px; border-radius: 50%" >
 									<div class="media-body">
-										<strong class="text-primary">한영수</strong>
+										<strong class="text-primary">${dto.id }</strong>
 										<p>댓글 입니다.</p>
 									</div>
 									<div class="m-2">
