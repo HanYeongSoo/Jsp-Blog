@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.cos.blog.domain.board.dto.CommonRespDto;
+import com.cos.blog.domain.reply.Reply;
 import com.cos.blog.domain.reply.dto.SaveReqDto;
 import com.cos.blog.service.BoardService;
 import com.cos.blog.service.ReplyService;
@@ -56,15 +57,21 @@ public class ReplyController extends HttpServlet {
 			String reqData = br.readLine();
 			Gson gson = new Gson();
 			SaveReqDto dto = gson.fromJson(reqData, SaveReqDto.class);
-//			System.out.println("dto : " + dto);
-			
+			System.out.println("dto : "+dto);
+
+			CommonRespDto<Reply> commonRespDto = new CommonRespDto<>();
+			Reply reply = null;
 			int result = replyService.댓글쓰기(dto);
-			
-			CommonRespDto<String> commonRespDto = new CommonRespDto<>();
-			commonRespDto.setStatusCode(result);	// 1 or -1
-			commonRespDto.setData("댓글 입력 성공");
-			
-			String responseData = gson.toJson(commonRespDto);
+			if(result != -1) {
+				reply = replyService.댓글찾기(result);
+				commonRespDto.setStatusCode(1); //1, -1
+				commonRespDto.setData(reply);
+			}else {
+				commonRespDto.setStatusCode(-1); //1, -1
+			}
+
+			String responseData = gson.toJson(commonRespDto); 
+			System.out.println("responseData : "+responseData);
 			Script.responseData(response, responseData);
 			
 //			if (result == 1) {
@@ -73,6 +80,17 @@ public class ReplyController extends HttpServlet {
 ////				Script.back(response, "댓글이 성공적으로 달리지 않았습니다.");
 //				Script.responseData(response, responseData);
 //			}
+		} else if (cmd.equals("delete")) {
+			int id = Integer.parseInt(request.getParameter("id"));
+			int result = replyService.댓글삭제(id);
+			
+			CommonRespDto commonDto = new CommonRespDto<>();
+			commonDto.setStatusCode(result);
+			
+			Gson gson = new Gson();
+			String jsonData = gson.toJson(commonDto);	// {"statusCode" : 1 }
+			Script.responseData(response, jsonData);
+				
 		}
 		
 	}

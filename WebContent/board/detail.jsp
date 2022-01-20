@@ -42,48 +42,27 @@
 							<br>
 	
 							<button class="btn btn-primary pull-right" onclick="replySave(${sessionScope.loginUser.id}, ${dto.id })">댓글쓰기</button>
-							
-						<script type="text/javascript">
-							function replySave(userId, boardId){
-								var data = {
-									userId: userId,
-									boardId: boardId,
-									content: $("#content").val()
-								}
-								
-								$.ajax({
-									type: "post",
-									url: "/blog/reply?cmd=save",
-									data: JSON.stringify(data),
-									contentType: "application/json; charset=utf-8",
-									dataType: "json"
-								}).done(function(result){
-									if(result.statusCode == 1) {
-										$("#reply__list").prepend("<div>" + data.content + "</div>")
-									} else {
-										alert('댓글이 정상적으로 달리지 않았습니다.')
-									}
-								})
-							}
-							
-						</script>
 						
 						<div class="clearfix"></div>
 						<hr />
-
+						
 						<!-- 댓글 리스트 시작-->
 						<ul id="reply__list" class="media-list">
+							<c:forEach var="reply" items="${replys}">
 								<!-- 댓글 아이템 -->
-								<li id="reply-1" class="media">
-									<img src="/blog/images/userProfile.png" alt="" class="img-circle" style="width: 100px; height: 100px; border-radius: 50%" >
+								<li id="reply-${reply.id}" class="media">
 									<div class="media-body">
-										<strong class="text-primary">${dto.id }</strong>
-										<p>댓글 입니다.</p>
+										<strong class="text-primary">${reply.userId}</strong>
+										<p>${reply.content}</p>
 									</div>
 									<div class="m-2">
-											<i onclick="#" class="material-icons">delete</i>
+										<c:if test="${sessionScope.loginUser.id == reply.userId }">
+											<i onclick="deleteReply(${reply.id})" class="material-icons">delete</i>
+										</c:if>
 									</div>
 								</li>
+							</c:forEach>
+
 
 						</ul>
 						<!-- 댓글 리스트 끝-->
@@ -96,22 +75,7 @@
 	<!-- 댓글 박스 끝 -->
 </div>
 
-<script type="text/javascript">
-		function deleteById(boardId) {
-			
-			$.ajax({
-				type: "POST",
-				url: "/blog/board?cmd=delete&id="+boardId,
-				dataType: "json"
-			}).done(function(result){
-				if (result.statusCode == "1") {
-					location.href="index.jsp";
-				} else {
-					alert('삭제에 실패하였습니다.');
-				}
-			});
-		}
-	</script>
+<script src="/blog/js/boardDetail.js"></script>
 </body>
 </html>
 
